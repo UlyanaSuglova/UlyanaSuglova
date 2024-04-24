@@ -1,0 +1,60 @@
+import asyncio
+import config
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters.command import Command
+import logging
+import random
+
+#Логирование
+logging.basicConfig(level=logging.INFO)
+
+# Объект бота и диспетчера
+bot = Bot(token=config.token)
+dp = Dispatcher()
+
+
+@dp.message(Command(commands=['start']))
+async def start(message: types.Message):
+    await message.answer(f'Привет, {message.from_user.full_name}!')
+    await message.answer(f'Подсказать классный сериал на вечер?')
+    await message.answer(f'Все просто - кликай на команду /info')
+
+@dp.message(Command(commands=['info']))
+async def info(message: types.Message):
+    print(message.from_user.full_name)
+    number = random.randint(1,3)
+    await message.answer(f'Твое число /{number} - скорее нажми на него')
+
+@dp.message(Command(commands=['1']))
+async def info(message: types.Message):
+    print(message.from_user.full_name)
+    await message.answer(f'Я думаю, сериал "Переполненная комната" тебя удивит!')
+    await message.answer(f'Если я не угадала с выбором - нажми еще раз /info')
+    await message.answer(f'Для остановки бота введи команду /stop')
+
+@dp.message(Command(commands=['2']))
+async def info(message: types.Message):
+    print(message.from_user.full_name)
+    await message.answer(f'Вспомни детство и посмотри "Гравити Фолз"!')
+    await message.answer(f'Если я не угадала с выбором - нажми еще раз /info')
+    await message.answer(f'Для остановки бота введи команду /stop')
+
+@dp.message(Command(commands=['3']))
+async def info(message: types.Message):
+    print(message.from_user.full_name)
+    await message.answer(f'Запасайся носовыми платочками и включай "Бриджетоны".')
+    await message.answer(f'Если я не угадала с выбором - нажми еще раз /info')
+    await message.answer(f'Для остановки бота введи команду /stop')
+
+@dp.message(Command(commands=['стоп']))
+@dp.message(Command(commands=['stop']))
+async def stop(message: types.Message):
+    print(message.from_user.full_name)
+    await message.answer(f'До скорых встреч, {message.chat.first_name}!')
+
+async def main():
+    await dp.start_polling(bot)
+
+
+if __name__ == '__main__':
+    asyncio.run(main())
